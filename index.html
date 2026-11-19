@@ -62,6 +62,43 @@
             </div>
         </div>
 
+        <!-- Short-clip gallery: each clip is [input | world-frame 3D tracks] -->
+        <div class="container container-wide">
+            <h2>Real-World Videos</h2>
+            <div class="col-heads" aria-hidden="true">
+                <span>Input Video</span>
+                <span>Streaming 3D Tracks</span>
+            </div>
+            <div class="clip-carousel" data-carousel>
+                <div class="rail-shell">
+                    <button type="button" class="rail-nav rail-nav-prev" data-rail-prev aria-label="Previous clips">&lsaquo;</button>
+                    <div class="clip-rail" data-rail tabindex="0" role="group" aria-label="3D tracking results (scroll horizontally)">
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/horse.mp4" poster="assets/posters/horse.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>horse</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/camel.mp4" poster="assets/posters/camel.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>camel</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/motocross-bumps.mp4" poster="assets/posters/motocross-bumps.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>motocross-bumps</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/drift-turn.mp4" poster="assets/posters/drift-turn.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>drift-turn</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/swing.mp4" poster="assets/posters/swing.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>swing</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/soapbox.mp4" poster="assets/posters/soapbox.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>soapbox</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/snowboard.mp4" poster="assets/posters/snowboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>snowboard</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/longboard.mp4" poster="assets/posters/longboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>longboard</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/rollerblade.mp4" poster="assets/posters/rollerblade.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>rollerblade</figcaption></figure>
+                    </div>
+                    <button type="button" class="rail-nav rail-nav-next" data-rail-next aria-label="Next clips">&rsaquo;</button>
+                </div>
+                <div class="rail-footer">
+                    <div class="rail-dots" data-rail-dots role="tablist" aria-label="Clip pages"></div>
+                    <p class="rail-count" data-rail-count aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="footnote">
+                Trajectories are shown in world coordinates on top of the streaming reconstruction;
+                colored tracklines mark dynamic foreground points. Click any clip to enlarge.
+            </p>
+        </div>
+    </header>
+
+    <!-- ============================= Long videos ============================ -->
+    <section class="section section-alt">
         <!-- Long videos: one player with thumbnail selector -->
         <div class="container container-wide">
             <h2>Long Videos</h2>
@@ -98,43 +135,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </header>
-
-    <!-- ========================== Real-world videos ======================== -->
-    <section class="section section-alt">
-        <!-- Short-clip gallery: each clip is [input | world-frame 3D tracks] -->
-        <div class="container container-wide">
-            <h2>Real-World Videos</h2>
-            <div class="col-heads" aria-hidden="true">
-                <span>Input Video</span>
-                <span>Streaming 3D Tracks</span>
-            </div>
-            <div class="clip-carousel" data-carousel>
-                <div class="rail-shell">
-                    <button type="button" class="rail-nav rail-nav-prev" data-rail-prev aria-label="Previous clips">&lsaquo;</button>
-                    <div class="clip-rail" data-rail tabindex="0" role="group" aria-label="3D tracking results (scroll horizontally)">
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/horse.mp4" poster="assets/posters/horse.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>horse</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/camel.mp4" poster="assets/posters/camel.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>camel</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/motocross-bumps.mp4" poster="assets/posters/motocross-bumps.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>motocross-bumps</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/drift-turn.mp4" poster="assets/posters/drift-turn.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>drift-turn</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/swing.mp4" poster="assets/posters/swing.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>swing</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/soapbox.mp4" poster="assets/posters/soapbox.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>soapbox</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/snowboard.mp4" poster="assets/posters/snowboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>snowboard</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/longboard.mp4" poster="assets/posters/longboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>longboard</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/rollerblade.mp4" poster="assets/posters/rollerblade.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>rollerblade</figcaption></figure>
-                    </div>
-                    <button type="button" class="rail-nav rail-nav-next" data-rail-next aria-label="Next clips">&rsaquo;</button>
-                </div>
-                <div class="rail-footer">
-                    <div class="rail-dots" data-rail-dots role="tablist" aria-label="Clip pages"></div>
-                    <p class="rail-count" data-rail-count aria-live="polite"></p>
-                </div>
-            </div>
-            <p class="footnote">
-                Trajectories are shown in world coordinates on top of the streaming reconstruction;
-                colored tracklines mark dynamic foreground points. Click any clip to enlarge.
-            </p>
         </div>
     </section>
 
