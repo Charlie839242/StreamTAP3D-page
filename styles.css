@@ -159,6 +159,7 @@ strong { font-weight: 600; }
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin: 0 44px 8px;
+    text-align: center;
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -166,7 +167,6 @@ strong { font-weight: 600; }
     color: var(--text-muted);
 }
 
-.stack { display: grid; gap: 28px; }
 
 /* -------------------------------------------------------------- Carousel */
 
@@ -186,6 +186,7 @@ strong { font-weight: 600; }
 }
 .clip-rail::-webkit-scrollbar { display: none; }
 .clip-rail > .clip { scroll-snap-align: start; }
+.clip-rail.is-single { grid-template-rows: auto; }
 
 .rail-nav {
     flex: none;
@@ -320,4 +321,4 @@ strong { font-weight: 600; }
 }
 
 /* Column heads directly above a full-width video (no carousel nav buttons). */
-.col-heads.is-flush { margin: 0 0 8px; text-align: center; }
+.col-heads.is-flush { margin: 0 0 8px; }

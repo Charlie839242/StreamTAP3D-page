@@ -174,7 +174,8 @@
         schedulePick();
     };
 
-    document.querySelectorAll(".clip-rail .clip").forEach((fig) => {
+    // Live demos have their own controls, so they are not opened in the lightbox.
+    document.querySelectorAll(".clip-rail:not(.is-single) .clip").forEach((fig) => {
         fig.querySelector(".clip-media").addEventListener("click", () => {
             const v = fig.querySelector("video");
             openLb(v.dataset.src, fig.querySelector("figcaption")?.textContent);
