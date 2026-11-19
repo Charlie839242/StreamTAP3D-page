@@ -191,8 +191,8 @@
         btn.addEventListener("click", () => {
             const text = btn.parentElement.querySelector("pre").textContent;
             navigator.clipboard?.writeText(text).then(() => {
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(() => { btn.innerHTML = '<i class="far fa-copy"></i>'; }, 1500);
+                btn.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>';
+                setTimeout(() => { btn.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg>'; }, 1500);
             });
         });
     });
