@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StreamTAP3D: Streaming 3D Point Tracking with Hybrid Memory">
+    <meta name="keywords" content="StreamTAP3D, streaming, 3D point tracking, online tracking, test-time training, memory, monocular video">
+    <title>StreamTAP3D: Streaming 3D Point Tracking with Hybrid Memory</title>
+    <meta property="og:title" content="StreamTAP3D: Streaming 3D Point Tracking with Hybrid Memory">
+    <meta property="og:description" content="Strictly causal 3D point tracking from monocular RGB streams with zero lookahead and bounded memory.">
+    <meta property="og:image" content="assets/posters/horse.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ================================ Hero ================================ -->
+    <header class="hero">
+        <div class="container">
+            <p class="venue">Under Review</p>
+            <h1>
+                <span class="method-name">StreamTAP3D</span>:<br>
+                Streaming 3D Point Tracking with Hybrid Memory
+            </h1>
+
+            <!-- TODO: replace with real authors / homepages -->
+            <p class="authors">
+                <a href="#" target="_blank" rel="noopener">First Author</a><sup>1</sup>,
+                <a href="#" target="_blank" rel="noopener">Second Author</a><sup>2</sup>
+            </p>
+            <p class="affiliations">
+                <span><sup>1</sup>Institution 1</span>
+                <span><sup>2</sup>Institution 2</span>
+            </p>
+
+            <!-- TODO: placeholder links, replace with real arXiv / paper / code / demo URLs -->
+            <div class="button-group">
+                <a href="https://www.google.com/" class="btn" target="_blank" rel="noopener">
+                    <i class="ai ai-arxiv" aria-hidden="true"></i> arXiv
+                </a>
+                <a href="https://www.google.com/" class="btn" target="_blank" rel="noopener">
+                    <i class="fas fa-file-pdf" aria-hidden="true"></i> Paper
+                </a>
+                <a href="https://www.google.com/" class="btn" target="_blank" rel="noopener">
+                    <i class="fab fa-github" aria-hidden="true"></i> Code
+                </a>
+                <a href="https://www.google.com/" class="btn" target="_blank" rel="noopener">
+                    <i class="fas fa-play" aria-hidden="true"></i> Demo
+                </a>
+            </div>
+
+            <div class="highlights">
+                <p class="highlight">
+                    <strong>StreamTAP3D</strong> tracks 3D points from a <strong>monocular RGB stream</strong>,
+                    processing <strong>each frame as it arrives</strong> &mdash; zero lookahead, constant per-frame cost,
+                    and no precomputed depth or camera poses.
+                </p>
+            </div>
+        </div>
+
+        <!-- Long videos: one player with thumbnail selector -->
+        <div class="container container-wide">
+            <h2>Long Videos</h2>
+            <p class="section-intro">
+                Because memory is compressed into constant-size states, the per-frame cost does not grow with video length.
+                StreamTAP3D keeps tracking over minutes-long sequences.
+            </p>
+            <div class="player" data-player>
+                <div class="col-heads is-flush" aria-hidden="true">
+                    <span>Input Video</span>
+                    <span>Streaming 3D Tracks</span>
+                </div>
+                <div class="clip-media is-pair player-media">
+                    <video data-player-video data-autoplay muted loop playsinline controls preload="none"></video>
+                </div>
+                <div class="player-thumbs" role="tablist" aria-label="Long video sequences">
+                    <button type="button" class="thumb" data-video="assets/videos/mirror.mp4" data-poster="assets/posters/mirror.jpg">
+                        <img src="assets/posters/mirror.jpg" alt="" loading="lazy"><span>Mirror dance <em>3:55</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/skating.mp4" data-poster="assets/posters/skating.jpg">
+                        <img src="assets/posters/skating.jpg" alt="" loading="lazy"><span>Figure skating <em>1:02</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/wata.mp4" data-poster="assets/posters/wata.jpg">
+                        <img src="assets/posters/wata.jpg" alt="" loading="lazy"><span>Duo dance <em>0:52</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/robot_arm.mp4" data-poster="assets/posters/robot_arm.jpg">
+                        <img src="assets/posters/robot_arm.jpg" alt="" loading="lazy"><span>Robot arms <em>0:19</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/kick.mp4" data-poster="assets/posters/kick.jpg">
+                        <img src="assets/posters/kick.jpg" alt="" loading="lazy"><span>Game character I <em>0:15</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/genshin.mp4" data-poster="assets/posters/genshin.jpg">
+                        <img src="assets/posters/genshin.jpg" alt="" loading="lazy"><span>Game character II <em>0:14</em></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================== Real-time demo ======================== -->
+    <section class="section section-alt">
+        <div class="container container-wide">
+            <h2>Real-Time Demo</h2>
+            <p class="section-intro">
+                StreamTAP3D running live on a single <strong>laptop GPU</strong> with a webcam stream.
+                Left: the scene filmed by a handheld phone. Right: screen recording of the live system.
+            </p>
+            <div class="stack">
+                <figure class="clip">
+                    <div class="col-heads is-flush" aria-hidden="true">
+                        <span>Input Video</span>
+                        <span>Streaming 3D Tracks</span>
+                    </div>
+                    <div class="clip-media is-live">
+                        <video data-src="assets/videos/moving_object.mp4" poster="assets/posters/moving_object.jpg" muted loop playsinline preload="none" data-autoplay controls></video>
+                    </div>
+                    <figcaption>Tracking a moving object</figcaption>
+                </figure>
+                <figure class="clip">
+                    <div class="col-heads is-flush" aria-hidden="true">
+                        <span>Input Video</span>
+                        <span>Streaming 3D Tracks</span>
+                    </div>
+                    <div class="clip-media is-live">
+                        <video data-src="assets/videos/waving_hand.mp4" poster="assets/posters/waving_hand.jpg" muted loop playsinline preload="none" data-autoplay controls></video>
+                    </div>
+                    <figcaption>Tracking a waving hand</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== Real-world videos ======================== -->
+    <section class="section">
+        <!-- Short-clip gallery: each clip is [input | world-frame 3D tracks] -->
+        <div class="container container-wide">
+            <h2>Real-World Videos</h2>
+            <div class="col-heads" aria-hidden="true">
+                <span>Input Video</span>
+                <span>Streaming 3D Tracks</span>
+            </div>
+            <div class="clip-carousel" data-carousel>
+                <div class="rail-shell">
+                    <button type="button" class="rail-nav rail-nav-prev" data-rail-prev aria-label="Previous clips">&lsaquo;</button>
+                    <div class="clip-rail" data-rail tabindex="0" role="group" aria-label="3D tracking results (scroll horizontally)">
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/horse.mp4" poster="assets/posters/horse.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>horse</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/camel.mp4" poster="assets/posters/camel.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>camel</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/motocross-bumps.mp4" poster="assets/posters/motocross-bumps.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>motocross-bumps</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/drift-turn.mp4" poster="assets/posters/drift-turn.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>drift-turn</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/swing.mp4" poster="assets/posters/swing.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>swing</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/soapbox.mp4" poster="assets/posters/soapbox.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>soapbox</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/snowboard.mp4" poster="assets/posters/snowboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>snowboard</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/longboard.mp4" poster="assets/posters/longboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>longboard</figcaption></figure>
+                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/rollerblade.mp4" poster="assets/posters/rollerblade.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>rollerblade</figcaption></figure>
+                    </div>
+                    <button type="button" class="rail-nav rail-nav-next" data-rail-next aria-label="Next clips">&rsaquo;</button>
+                </div>
+                <div class="rail-footer">
+                    <div class="rail-dots" data-rail-dots role="tablist" aria-label="Clip pages"></div>
+                    <p class="rail-count" data-rail-count aria-live="polite"></p>
+                </div>
+            </div>
+            <p class="footnote">
+                Trajectories are shown in world coordinates on top of the streaming reconstruction;
+                colored tracklines mark dynamic foreground points. Click any clip to enlarge.
+            </p>
+        </div>
+    </section>
+
+    <!-- ================================ Method ============================== -->
+    <section class="section section-alt">
+        <div class="container container-wide">
+            <h2>Method</h2>
+            <figure class="paper-fig">
+                <img src="assets/figs/figure2.jpg" alt="Method overview" loading="lazy">
+                <figcaption>
+                    <strong>Method Overview.</strong> An <em>Online Geometry Predictor</em> estimates per-frame geometry,
+                    while a shared <em>Visual Encoder</em> extracts features from which 2D queries (squares) and 3D queries
+                    (cubes) are sampled. For each incoming frame, 2D and 3D correlations are computed on the current frame
+                    only, and a <em>Dual-Memory Refiner</em> iteratively updates both trajectories while carrying compact
+                    <em>Memory &amp; State</em> to the next frame.
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ================================ BibTeX ============================== -->
+    <section class="section">
+        <div class="container">
+            <h2>BibTeX</h2>
+            <div class="citation">
+                <button type="button" class="copy-btn" data-copy aria-label="Copy BibTeX"><i class="far fa-copy"></i></button>
+<pre>@inproceedings{streamtap3d,
+  title     = {StreamTAP3D: Streaming 3D Point Tracking with Hybrid Memory},
+  author    = {First Author and Second Author},
+  booktitle = {arXiv preprint},
+  year      = {2026},
+}</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================ Footer ============================== -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>
+                Page template inspired by <a href="https://www.google.com/" target="_blank" rel="noopener">TrackEverything</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- =============================== Lightbox ============================= -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+        <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+        <div class="lightbox-inner">
+            <video id="lightboxVideo" muted loop playsinline controls></video>
+            <p class="lightbox-caption" id="lightboxCaption"></p>
+        </div>
+    </div>
+
+    <script src="site.js"></script>
+</body>
+</html>

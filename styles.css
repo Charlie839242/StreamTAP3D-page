@@ -1,0 +1,323 @@
+/* ==========================================================================
+   StreamTAP3D project page
+   Minimal academic layout: single column, centered sections, neutral palette.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+:root {
+    --bg: #ffffff;
+    --surface: #f7f8fa;
+    --border: #e2e6eb;
+    --border-strong: #cfd5dd;
+    --text: #14181d;
+    --text-soft: #43505f;
+    --text-muted: #6b7684;
+    --accent: #0e7fa6;          /* matches the teal used in the paper figures */
+    --accent-soft: #e8f5fa;
+
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    --content: 900px;
+    --content-wide: 1160px;
+    --radius: 6px;
+}
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------- Layout */
+
+.container { max-width: var(--content); margin: 0 auto; padding: 0 24px; }
+.container-wide { max-width: var(--content-wide); }
+
+.section { padding: 56px 0; border-top: 1px solid var(--border); }
+.section-alt { background: var(--surface); }
+
+/* ------------------------------------------------------------ Typography */
+
+h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1.25rem; }
+h1 .method-name { font-style: italic; color: var(--accent); }
+h2 { font-size: 1.6rem; text-align: center; margin-bottom: 0.85rem; }
+h3 { font-family: var(--font-sans); font-size: 1.02rem; font-weight: 600; letter-spacing: 0; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+strong { font-weight: 600; }
+
+.section-intro {
+    max-width: 760px;
+    margin: 0 auto 1.75rem;
+    text-align: center;
+    color: var(--text-soft);
+    font-size: 1rem;
+}
+
+.body-copy { max-width: 780px; margin: 0 auto; color: var(--text-soft); text-align: justify; hyphens: auto; }
+
+.footnote {
+    max-width: 780px;
+    margin: 1.1rem auto 0;
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ------------------------------------------------------------------ Hero */
+
+.hero { padding: 64px 0 48px; text-align: center; }
+
+.venue {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 5px 14px;
+    margin-bottom: 1.4rem;
+}
+
+.authors { font-size: 1.08rem; margin-bottom: 0.4rem; }
+.authors a { color: var(--text); }
+.authors a:hover { color: var(--accent); }
+.authors sup, .affiliations sup { color: var(--text-muted); font-size: 0.7em; }
+
+.affiliations { color: var(--text-soft); font-size: 0.98rem; margin-bottom: 1.6rem; }
+.affiliations span + span { margin-left: 1.4rem; }
+
+.button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 2rem; }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--text);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.15s ease;
+}
+.btn:hover { background: var(--accent); text-decoration: none; }
+
+.highlights { max-width: 780px; margin: 0 auto 2.2rem; }
+.highlight {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    text-align: left;
+    color: var(--text-soft);
+    font-size: 0.98rem;
+}
+
+/* ----------------------------------------------------------------- Clips */
+
+.clip { position: relative; }
+
+.clip-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--border);
+    cursor: zoom-in;
+}
+.clip-media video { display: block; width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.clip-media.is-pair { aspect-ratio: 32 / 9; }
+.clip-media.is-live { aspect-ratio: 1280 / 496; cursor: default; }
+
+.clip figcaption {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.col-heads {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 44px 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.stack { display: grid; gap: 28px; }
+
+/* -------------------------------------------------------------- Carousel */
+
+.rail-shell { position: relative; display: flex; align-items: center; gap: 8px; }
+
+.clip-rail {
+    flex: 1;
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    gap: 14px 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    outline: none;
+}
+.clip-rail::-webkit-scrollbar { display: none; }
+.clip-rail > .clip { scroll-snap-align: start; }
+
+.rail-nav {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: #fff;
+    color: var(--text-soft);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.rail-nav:hover:not(:disabled) { background: var(--text); color: #fff; }
+.rail-nav:disabled { opacity: 0.35; cursor: default; }
+
+.rail-footer { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 12px; }
+.rail-dots { display: flex; gap: 8px; }
+.rail-dots button {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    border: none;
+    background: var(--border-strong);
+    cursor: pointer;
+}
+.rail-dots button[aria-selected="true"] { background: var(--accent); }
+.rail-count { font-size: 0.82rem; color: var(--text-muted); }
+
+/* ---------------------------------------------------------------- Player */
+
+.player-media { cursor: default; }
+.player-thumbs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+}
+.thumb {
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: var(--text-soft);
+    opacity: 0.7;
+    transition: opacity 0.15s, border-color 0.15s;
+}
+.thumb:hover { opacity: 1; }
+.thumb.is-active { opacity: 1; border-color: var(--accent); }
+.thumb img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: left; border-radius: 4px 4px 0 0; }
+.thumb span { display: block; padding: 4px 6px; font-size: 0.8rem; line-height: 1.3; }
+.thumb em { font-style: normal; color: var(--text-muted); margin-left: 4px; }
+
+/* --------------------------------------------------------------- Figures */
+
+.paper-fig { margin: 0 auto; }
+.paper-fig img { display: block; width: 100%; border-radius: var(--radius); background: #fff; }
+.paper-fig figcaption {
+    max-width: 860px;
+    margin: 14px auto 0;
+    font-size: 0.92rem;
+    color: var(--text-soft);
+    text-align: justify;
+}
+
+/* ---------------------------------------------------------------- BibTeX */
+
+.citation {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    overflow-x: auto;
+}
+.citation pre { font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.55; color: var(--text); }
+.copy-btn {
+    position: absolute; top: 10px; right: 10px;
+    border: 1px solid var(--border-strong);
+    background: #fff;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+.copy-btn:hover { color: var(--accent); }
+
+/* ---------------------------------------------------------------- Footer */
+
+.site-footer {
+    padding: 28px 0 36px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------- Lightbox */
+
+.lightbox {
+    position: fixed; inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 14, 20, 0.88);
+    padding: 24px;
+}
+.lightbox.is-open { display: flex; }
+.lightbox-inner { width: min(96vw, 1800px); }
+.lightbox video { display: block; width: 100%; max-height: 86vh; background: #fff; border-radius: var(--radius); }
+.lightbox-caption { margin-top: 10px; text-align: center; color: #d6dbe1; font-size: 0.9rem; }
+.lightbox-close {
+    position: absolute; top: 14px; right: 20px;
+    border: none; background: none;
+    color: #fff; font-size: 2.2rem; line-height: 1;
+    cursor: pointer;
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 760px) {
+    body { font-size: 16px; }
+    h1 { font-size: 1.75rem; }
+    .clip-rail { grid-template-rows: auto; }
+    .rail-nav { display: none; }
+    .col-heads, .col-heads.is-flush { margin: 0 0 6px; }
+    .player-thumbs { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Column heads directly above a full-width video (no carousel nav buttons). */
+.col-heads.is-flush { margin: 0 0 8px; text-align: center; }
