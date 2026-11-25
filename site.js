@@ -127,6 +127,50 @@
     });
 
     // ---------------------------------------------------------------------
+    // Playback-speed buttons (1x / 2x / 4x) overlaid on each video.
+    // ---------------------------------------------------------------------
+    // Browsers reset playbackRate when the source changes, so the chosen rate
+    // is kept in data-rate and re-applied whenever new media loads.
+    const setRate = (v, rate) => {
+        v.dataset.rate = rate;
+        v.defaultPlaybackRate = rate;
+        v.playbackRate = rate;
+        const ctl = v.parentElement.querySelector(".speed");
+        if (!ctl) return;
+        ctl.classList.toggle("is-changed", rate !== 1);
+        ctl.querySelectorAll("button").forEach((b) => {
+            b.setAttribute("aria-pressed", String(+b.dataset.rate === rate));
+        });
+    };
+
+    const addSpeed = (container, rates, position) => {
+        const v = container.querySelector("video");
+        const ctl = document.createElement("div");
+        ctl.className = `speed speed-${position}`;
+        ctl.setAttribute("role", "group");
+        ctl.setAttribute("aria-label", "Playback speed");
+        rates.forEach((r) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.dataset.rate = r;
+            b.textContent = `${r}\u00d7`;
+            b.setAttribute("aria-label", `Play at ${r}x speed`);
+            b.addEventListener("click", (e) => {
+                e.stopPropagation();  // don't open the lightbox
+                setRate(v, r);
+            });
+            ctl.appendChild(b);
+        });
+        container.appendChild(ctl);
+        v.addEventListener("loadedmetadata", () => setRate(v, +(v.dataset.rate || 1)));
+        setRate(v, 1);
+    };
+
+    document.querySelectorAll(".clip-rail:not(.is-single) .clip-media").forEach((c) => addSpeed(c, [1, 2], "bottom"));
+    document.querySelectorAll(".player-media, .clip-media.is-live").forEach((c) => addSpeed(c, [1, 2, 4], "top"));
+    addSpeed(document.querySelector(".lightbox-media"), [1, 2], "top");
+
+    // ---------------------------------------------------------------------
     // Long-video player with thumbnail selector.
     // ---------------------------------------------------------------------
     // The video itself is lazy-loaded / autoplayed by the playback logic above.
@@ -155,8 +199,12 @@
     const lbVideo = document.getElementById("lightboxVideo");
     const lbCaption = document.getElementById("lightboxCaption");
 
-    const openLb = (src, caption) => {
-        lbVideo.src = src;
+    let lbSource = null;  // carousel video the lightbox was opened from
+
+    const openLb = (v, caption) => {
+        lbSource = v;
+        lbVideo.dataset.rate = v.dataset.rate || 1;
+        lbVideo.src = v.dataset.src;
         lbCaption.textContent = caption || "";
         lb.classList.add("is-open");
         lb.setAttribute("aria-hidden", "false");
@@ -167,6 +215,8 @@
         lb.classList.remove("is-open");
         lb.setAttribute("aria-hidden", "true");
         lbVideo.pause();
+        if (lbSource) setRate(lbSource, +lbVideo.dataset.rate);  // keep speed chosen in the lightbox
+        lbSource = null;
         lbVideo.removeAttribute("src");
         lbVideo.load();
         lightboxOpen = false;
@@ -178,7 +228,7 @@
     document.querySelectorAll(".clip-rail:not(.is-single) .clip").forEach((fig) => {
         fig.querySelector(".clip-media").addEventListener("click", () => {
             const v = fig.querySelector("video");
-            openLb(v.dataset.src, fig.querySelector("figcaption")?.textContent);
+            openLb(v, fig.querySelector("figcaption")?.textContent);
         });
     });
     lb.addEventListener("click", (e) => { if (e.target === lb || e.target.closest(".lightbox-close")) closeLb(); });

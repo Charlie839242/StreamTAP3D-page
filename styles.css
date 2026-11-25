@@ -205,6 +205,42 @@ strong { font-weight: 600; }
 .rail-dots button[aria-selected="true"] { background: var(--accent); }
 .rail-count { font-size: 0.82rem; color: var(--text-muted); }
 
+/* ----------------------------------------------------------------- Speed */
+
+.speed {
+    position: absolute;
+    right: 8px;
+    z-index: 2;
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 999px;
+    background: rgba(20, 24, 29, 0.62);
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.speed-top { top: 8px; }
+.speed-bottom { bottom: 8px; }
+
+/* Visible on hover/focus, whenever a non-default speed is active, and always on touch screens. */
+.clip-media:hover .speed,
+.lightbox-media:hover .speed,
+.speed:focus-within,
+.speed.is-changed { opacity: 1; }
+@media (hover: none) { .speed { opacity: 1; } }
+
+.speed button {
+    border: none;
+    border-radius: 999px;
+    padding: 2px 9px;
+    background: transparent;
+    color: #fff;
+    font: 600 0.75rem/1.5 var(--font-sans);
+    cursor: pointer;
+}
+.speed button:hover { background: rgba(255, 255, 255, 0.18); }
+.speed button[aria-pressed="true"] { background: #fff; color: var(--text); }
+
 /* ---------------------------------------------------------------- Player */
 
 .player-media { cursor: default; }
@@ -279,6 +315,7 @@ strong { font-weight: 600; }
 }
 .lightbox.is-open { display: flex; }
 .lightbox-inner { width: min(96vw, 1800px); }
+.lightbox-media { position: relative; }
 .lightbox video { display: block; width: 100%; max-height: 86vh; background: #fff; border-radius: var(--radius); }
 .lightbox-caption { margin-top: 10px; text-align: center; color: #d6dbe1; font-size: 0.9rem; }
 .lightbox-close {
