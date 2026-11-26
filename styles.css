@@ -92,7 +92,7 @@ strong { font-weight: 600; }
 
 .affiliations { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem 1.4rem; color: var(--text-soft); font-size: 0.98rem; margin-bottom: 0.4rem; }
 
-.author-notes { color: var(--text-muted); font-size: 0.86rem; margin-bottom: 1.6rem; }
+.author-notes { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.1rem 1.2rem; color: var(--text-muted); font-size: 0.86rem; margin-bottom: 1.6rem; }
 
 .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 2rem; }
 
