@@ -5,6 +5,8 @@
     // Playback: only one video plays at a time.
     //  - Starting any video (autoplay, controls, hover) pauses all others.
     //  - Autoplay picks the visible video closest to the viewport center.
+    //    A data-eager video (the first one, just below the fold on laptops)
+    //    plays as soon as any part of it is visible.
     //  - A video the user started stays active until it scrolls out of view.
     // ---------------------------------------------------------------------
     const autoVideos = document.querySelectorAll("video[data-autoplay]");
@@ -38,7 +40,7 @@
         let bestDist = Infinity;
         const mid = window.innerHeight / 2;
         ratios.forEach((r, v) => {
-            if (r < 0.5) return;
+            if (v.hasAttribute("data-eager") ? r === 0 : r < 0.5) return;
             const b = v.getBoundingClientRect();
             const d = Math.abs(b.top + b.height / 2 - mid);
             if (d < bestDist) { bestDist = d; best = v; }
@@ -277,6 +279,15 @@
 
         select(thumbs[0], false);
     });
+
+    // If the eager video is still off screen (e.g. on phones), fetch only its first MB so it
+    // starts quickly once scrolled to, without spending mobile data on the whole file.
+    setTimeout(() => {
+        document.querySelectorAll("video[data-eager]").forEach((v) => {
+            if (v.getAttribute("src") || navigator.connection?.saveData) return;
+            fetch(v.dataset.src, { headers: { Range: "bytes=0-1048575" } }).catch(() => {});
+        });
+    }, 500);
 
     // ---------------------------------------------------------------------
     // Copy BibTeX.
