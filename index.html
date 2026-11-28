@@ -76,38 +76,49 @@
             </div>
         </div>
 
-        <!-- Short-clip gallery: each clip is [input | world-frame 3D tracks] -->
+        <!-- Short clips: one player with thumbnail selector; cycles through clips until the user picks one -->
         <div class="container container-wide">
             <h2>Real-World Videos</h2>
-            <div class="col-heads" aria-hidden="true">
-                <span>Input Video</span>
-                <span>Streaming 3D Tracks</span>
-            </div>
-            <div class="clip-carousel" data-carousel>
-                <div class="rail-shell">
-                    <button type="button" class="rail-nav rail-nav-prev" data-rail-prev aria-label="Previous clips">&lsaquo;</button>
-                    <div class="clip-rail" data-rail tabindex="0" role="group" aria-label="3D tracking results (scroll horizontally)">
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/horse.mp4" poster="assets/posters/horse.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>horse</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/camel.mp4" poster="assets/posters/camel.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>camel</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/motocross-bumps.mp4" poster="assets/posters/motocross-bumps.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>motocross-bumps</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/drift-turn.mp4" poster="assets/posters/drift-turn.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>drift-turn</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/swing.mp4" poster="assets/posters/swing.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>swing</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/soapbox.mp4" poster="assets/posters/soapbox.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>soapbox</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/snowboard.mp4" poster="assets/posters/snowboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>snowboard</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/longboard.mp4" poster="assets/posters/longboard.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>longboard</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/rollerblade.mp4" poster="assets/posters/rollerblade.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>rollerblade</figcaption></figure>
-                            <figure class="clip"><div class="clip-media is-pair"><video data-src="assets/videos/tennis.mp4" poster="assets/posters/tennis.jpg" muted loop playsinline preload="none" data-autoplay></video></div><figcaption>tennis</figcaption></figure>
-                    </div>
-                    <button type="button" class="rail-nav rail-nav-next" data-rail-next aria-label="Next clips">&rsaquo;</button>
+            <div class="player" data-player data-autoadvance="2">
+                <div class="clip-media player-media">
+                    <video data-player-video data-autoplay muted playsinline controls preload="none"></video>
                 </div>
-                <div class="rail-footer">
-                    <div class="rail-dots" data-rail-dots role="tablist" aria-label="Clip pages"></div>
-                    <p class="rail-count" data-rail-count aria-live="polite"></p>
+                <div class="player-thumbs is-5col" role="tablist" aria-label="Real-world clips">
+                    <button type="button" class="thumb" data-video="assets/videos/horse.mp4" data-poster="assets/posters/horse.jpg">
+                        <img src="assets/thumbs/horse.jpg" alt="" loading="lazy"><span>horse</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/camel.mp4" data-poster="assets/posters/camel.jpg">
+                        <img src="assets/thumbs/camel.jpg" alt="" loading="lazy"><span>camel</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/motocross-bumps.mp4" data-poster="assets/posters/motocross-bumps.jpg">
+                        <img src="assets/thumbs/motocross-bumps.jpg" alt="" loading="lazy"><span>motocross-bumps</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/drift-turn.mp4" data-poster="assets/posters/drift-turn.jpg">
+                        <img src="assets/thumbs/drift-turn.jpg" alt="" loading="lazy"><span>drift-turn</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/swing.mp4" data-poster="assets/posters/swing.jpg">
+                        <img src="assets/thumbs/swing.jpg" alt="" loading="lazy"><span>swing</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/soapbox.mp4" data-poster="assets/posters/soapbox.jpg">
+                        <img src="assets/thumbs/soapbox.jpg" alt="" loading="lazy"><span>soapbox</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/snowboard.mp4" data-poster="assets/posters/snowboard.jpg">
+                        <img src="assets/thumbs/snowboard.jpg" alt="" loading="lazy"><span>snowboard</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/longboard.mp4" data-poster="assets/posters/longboard.jpg">
+                        <img src="assets/thumbs/longboard.jpg" alt="" loading="lazy"><span>longboard</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/rollerblade.mp4" data-poster="assets/posters/rollerblade.jpg">
+                        <img src="assets/thumbs/rollerblade.jpg" alt="" loading="lazy"><span>rollerblade</span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/tennis.mp4" data-poster="assets/posters/tennis.jpg">
+                        <img src="assets/thumbs/tennis.jpg" alt="" loading="lazy"><span>tennis</span>
+                    </button>
                 </div>
             </div>
             <p class="footnote">
                 Trajectories are shown in world coordinates on top of the streaming reconstruction;
-                colored tracklines mark dynamic foreground points. Click any clip to enlarge.
+                colored tracklines mark dynamic foreground points.
             </p>
         </div>
     </header>
@@ -122,31 +133,27 @@
                 StreamTAP3D keeps tracking over minutes-long sequences.
             </p>
             <div class="player" data-player>
-                <div class="col-heads is-flush" aria-hidden="true">
-                    <span>Input Video</span>
-                    <span>Streaming 3D Tracks</span>
-                </div>
-                <div class="clip-media is-pair player-media">
+                <div class="clip-media player-media">
                     <video data-player-video data-autoplay muted loop playsinline controls preload="none"></video>
                 </div>
                 <div class="player-thumbs" role="tablist" aria-label="Long video sequences">
                     <button type="button" class="thumb" data-video="assets/videos/mirror.mp4" data-poster="assets/posters/mirror.jpg">
-                        <img src="assets/posters/mirror.jpg" alt="" loading="lazy"><span>Mirror dance <em>3:55</em></span>
+                        <img src="assets/thumbs/mirror.jpg" alt="" loading="lazy"><span>Mirror dance <em>3:54</em></span>
                     </button>
                     <button type="button" class="thumb" data-video="assets/videos/skating.mp4" data-poster="assets/posters/skating.jpg">
-                        <img src="assets/posters/skating.jpg" alt="" loading="lazy"><span>Figure skating <em>0:30</em></span>
+                        <img src="assets/thumbs/skating.jpg" alt="" loading="lazy"><span>Figure skating <em>0:28</em></span>
                     </button>
                     <button type="button" class="thumb" data-video="assets/videos/wata.mp4" data-poster="assets/posters/wata.jpg">
-                        <img src="assets/posters/wata.jpg" alt="" loading="lazy"><span>Duo dance <em>0:52</em></span>
+                        <img src="assets/thumbs/wata.jpg" alt="" loading="lazy"><span>Duo dance <em>0:51</em></span>
                     </button>
                     <button type="button" class="thumb" data-video="assets/videos/robot_arm.mp4" data-poster="assets/posters/robot_arm.jpg">
-                        <img src="assets/posters/robot_arm.jpg" alt="" loading="lazy"><span>Robot arms <em>0:19</em></span>
+                        <img src="assets/thumbs/robot_arm.jpg" alt="" loading="lazy"><span>Robot arms <em>0:19</em></span>
                     </button>
                     <button type="button" class="thumb" data-video="assets/videos/kick.mp4" data-poster="assets/posters/kick.jpg">
-                        <img src="assets/posters/kick.jpg" alt="" loading="lazy"><span>Arknights character <em>0:15</em></span>
+                        <img src="assets/thumbs/kick.jpg" alt="" loading="lazy"><span>Arknights character <em>0:15</em></span>
                     </button>
                     <button type="button" class="thumb" data-video="assets/videos/genshin.mp4" data-poster="assets/posters/genshin.jpg">
-                        <img src="assets/posters/genshin.jpg" alt="" loading="lazy"><span>Genshin character <em>0:14</em></span>
+                        <img src="assets/thumbs/genshin.jpg" alt="" loading="lazy"><span>Genshin character <em>0:14</em></span>
                     </button>
                 </div>
             </div>
@@ -224,17 +231,6 @@
             </div>
         </div>
     </section>
-
-    <!-- =============================== Lightbox ============================= -->
-    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
-        <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
-        <div class="lightbox-inner">
-            <div class="lightbox-media">
-                <video id="lightboxVideo" muted loop playsinline controls></video>
-            </div>
-            <p class="lightbox-caption" id="lightboxCaption"></p>
-        </div>
-    </div>
 
     <script src="site.js"></script>
 </body>

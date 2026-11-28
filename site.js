@@ -3,7 +3,7 @@
 
     // ---------------------------------------------------------------------
     // Playback: only one video plays at a time.
-    //  - Starting any video (autoplay, controls, hover, lightbox) pauses all others.
+    //  - Starting any video (autoplay, controls, hover) pauses all others.
     //  - Autoplay picks the visible video closest to the viewport center.
     //  - A video the user started stays active until it scrolls out of view.
     // ---------------------------------------------------------------------
@@ -11,7 +11,6 @@
     const ratios = new Map();
     let autoTarget = null;  // video most recently started by autoplay
     let pinned = null;      // video the user explicitly started
-    let lightboxOpen = false;
 
     const load = (v) => {
         if (!v.getAttribute("src") && v.dataset.src) v.src = v.dataset.src;
@@ -32,7 +31,6 @@
     }, true);
 
     const pick = () => {
-        if (lightboxOpen) return;
         if (pinned && (ratios.get(pinned) || 0) >= 0.25) return;
         pinned = null;
 
@@ -68,7 +66,7 @@
     autoVideos.forEach((v) => io.observe(v));
     window.addEventListener("scroll", schedulePick, { passive: true });
 
-    // Hovering a carousel clip plays that clip instead.
+    // Hovering a carousel clip (real-time demos) plays that clip instead.
     document.querySelectorAll(".clip-rail video").forEach((v) => {
         v.closest(".clip-media").addEventListener("mouseenter", () => {
             load(v);
@@ -127,7 +125,7 @@
     });
 
     // ---------------------------------------------------------------------
-    // Playback-speed buttons (1x / 2x / 4x) overlaid on each video.
+    // Playback-speed buttons overlaid on each video.
     // ---------------------------------------------------------------------
     // Browsers reset playbackRate when the source changes, so the chosen rate
     // is kept in data-rate and re-applied whenever new media loads.
@@ -155,10 +153,7 @@
             b.dataset.rate = r;
             b.textContent = `${r}\u00d7`;
             b.setAttribute("aria-label", `Play at ${r}x speed`);
-            b.addEventListener("click", (e) => {
-                e.stopPropagation();  // don't open the lightbox
-                setRate(v, r);
-            });
+            b.addEventListener("click", () => setRate(v, r));
             ctl.appendChild(b);
         });
         container.appendChild(ctl);
@@ -166,20 +161,29 @@
         setRate(v, 1);
     };
 
-    document.querySelectorAll(".clip-rail:not(.is-single) .clip-media").forEach((c) => addSpeed(c, [1, 2], "bottom"));
-    document.querySelectorAll(".player-media, .clip-media.is-live").forEach((c) => addSpeed(c, [1, 2, 4], "top"));
-    addSpeed(document.querySelector(".lightbox-media"), [1, 2], "top");
+    // Real-world clips are only a few seconds long, so slow motion is offered instead of 4x.
+    document.querySelectorAll("[data-autoadvance] .player-media").forEach((c) => addSpeed(c, [0.5, 1, 2], "top"));
+    document.querySelectorAll("[data-player]:not([data-autoadvance]) .player-media, .clip-media.is-live").forEach((c) => addSpeed(c, [1, 2, 4], "top"));
 
     // ---------------------------------------------------------------------
-    // Long-video player with thumbnail selector.
+    // Player with thumbnail selector (real-world clips and long videos).
     // ---------------------------------------------------------------------
     // The video itself is lazy-loaded / autoplayed by the playback logic above.
+    // With data-autoadvance="N", each clip plays N times before moving on to the
+    // next thumbnail; once the user picks a thumbnail, that clip just loops.
     document.querySelectorAll("[data-player]").forEach((root) => {
         const video = root.querySelector("[data-player-video]");
-        const thumbs = root.querySelectorAll(".thumb");
+        const thumbs = [...root.querySelectorAll(".thumb")];
+        const loops = +root.dataset.autoadvance || 0;
+        let auto = loops > 0;
+        let plays = 0;
 
         const select = (t, play) => {
             thumbs.forEach((x) => x.classList.toggle("is-active", x === t));
+            // On phones the thumbnails are a horizontal strip; keep the active one in view.
+            const strip = t.parentElement;
+            strip.scrollTo({ left: t.offsetLeft - strip.offsetLeft, behavior: "smooth" });
+            plays = 0;
             video.poster = t.dataset.poster;
             video.dataset.src = t.dataset.video;
             if (play) {
@@ -188,51 +192,20 @@
             }
         };
 
-        thumbs.forEach((t) => t.addEventListener("click", () => select(t, true)));
+        thumbs.forEach((t) => t.addEventListener("click", () => {
+            if (auto) { auto = false; video.loop = true; }
+            select(t, true);
+        }));
+
+        video.addEventListener("ended", () => {
+            if (!auto) return;
+            if (++plays < loops) { video.play().catch(() => {}); return; }
+            const i = thumbs.findIndex((x) => x.classList.contains("is-active"));
+            select(thumbs[(i + 1) % thumbs.length], true);
+        });
+
         select(thumbs[0], false);
     });
-
-    // ---------------------------------------------------------------------
-    // Lightbox for carousel clips.
-    // ---------------------------------------------------------------------
-    const lb = document.getElementById("lightbox");
-    const lbVideo = document.getElementById("lightboxVideo");
-    const lbCaption = document.getElementById("lightboxCaption");
-
-    let lbSource = null;  // carousel video the lightbox was opened from
-
-    const openLb = (v, caption) => {
-        lbSource = v;
-        lbVideo.dataset.rate = v.dataset.rate || 1;
-        lbVideo.src = v.dataset.src;
-        lbCaption.textContent = caption || "";
-        lb.classList.add("is-open");
-        lb.setAttribute("aria-hidden", "false");
-        lightboxOpen = true;
-        lbVideo.play().catch(() => {});
-    };
-    const closeLb = () => {
-        lb.classList.remove("is-open");
-        lb.setAttribute("aria-hidden", "true");
-        lbVideo.pause();
-        if (lbSource) setRate(lbSource, +lbVideo.dataset.rate);  // keep speed chosen in the lightbox
-        lbSource = null;
-        lbVideo.removeAttribute("src");
-        lbVideo.load();
-        lightboxOpen = false;
-        pinned = null;
-        schedulePick();
-    };
-
-    // Live demos have their own controls, so they are not opened in the lightbox.
-    document.querySelectorAll(".clip-rail:not(.is-single) .clip").forEach((fig) => {
-        fig.querySelector(".clip-media").addEventListener("click", () => {
-            const v = fig.querySelector("video");
-            openLb(v, fig.querySelector("figcaption")?.textContent);
-        });
-    });
-    lb.addEventListener("click", (e) => { if (e.target === lb || e.target.closest(".lightbox-close")) closeLb(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && lb.classList.contains("is-open")) closeLb(); });
 
     // ---------------------------------------------------------------------
     // Copy BibTeX.

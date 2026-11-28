@@ -133,11 +133,9 @@ strong { font-weight: 600; }
     border-radius: var(--radius);
     background: #fff;
     border: 1px solid var(--border);
-    cursor: zoom-in;
 }
 .clip-media video { display: block; width: 100%; height: 100%; object-fit: contain; background: #fff; }
-.clip-media.is-pair { aspect-ratio: 32 / 9; }
-.clip-media.is-live { aspect-ratio: 1280 / 496; cursor: default; }
+.clip-media.is-live { aspect-ratio: 1280 / 496; }
 
 .clip figcaption {
     margin-top: 6px;
@@ -222,11 +220,9 @@ strong { font-weight: 600; }
     transition: opacity 0.15s;
 }
 .speed-top { top: 8px; }
-.speed-bottom { bottom: 8px; }
 
 /* Visible on hover/focus, whenever a non-default speed is active, and always on touch screens. */
 .clip-media:hover .speed,
-.lightbox-media:hover .speed,
 .speed:focus-within,
 .speed.is-changed { opacity: 1; }
 @media (hover: none) { .speed { opacity: 1; } }
@@ -245,13 +241,16 @@ strong { font-weight: 600; }
 
 /* ---------------------------------------------------------------- Player */
 
-.player-media { cursor: default; }
+/* Capped so a 3:2 video plus its thumbnails fit on a laptop screen. */
+.player { max-width: 900px; margin: 0 auto; }
+.player-media { aspect-ratio: 960 / 654; }
 .player-thumbs {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
     margin-top: 14px;
 }
+.player-thumbs.is-5col { grid-template-columns: repeat(5, 1fr); }
 .thumb {
     border: 2px solid transparent;
     border-radius: var(--radius);
@@ -266,7 +265,7 @@ strong { font-weight: 600; }
 }
 .thumb:hover { opacity: 1; }
 .thumb.is-active { opacity: 1; border-color: var(--accent); }
-.thumb img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: left; border-radius: 4px 4px 0 0; }
+.thumb img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 4px 4px 0 0; }
 .thumb span { display: block; padding: 4px 6px; font-size: 0.8rem; line-height: 1.3; }
 .thumb em { font-style: normal; color: var(--text-muted); margin-left: 4px; }
 
@@ -304,29 +303,6 @@ strong { font-weight: 600; }
 }
 .copy-btn:hover { color: var(--accent); }
 
-/* -------------------------------------------------------------- Lightbox */
-
-.lightbox {
-    position: fixed; inset: 0;
-    z-index: 100;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(10, 14, 20, 0.88);
-    padding: 24px;
-}
-.lightbox.is-open { display: flex; }
-.lightbox-inner { width: min(96vw, 1800px); }
-.lightbox-media { position: relative; }
-.lightbox video { display: block; width: 100%; max-height: 86vh; background: #fff; border-radius: var(--radius); }
-.lightbox-caption { margin-top: 10px; text-align: center; color: #d6dbe1; font-size: 0.9rem; }
-.lightbox-close {
-    position: absolute; top: 14px; right: 20px;
-    border: none; background: none;
-    color: #fff; font-size: 2.2rem; line-height: 1;
-    cursor: pointer;
-}
-
 /* ------------------------------------------------------------ Responsive */
 
 @media (max-width: 760px) {
@@ -334,9 +310,16 @@ strong { font-weight: 600; }
     h1 { font-size: 1.75rem; }
     .clip-rail { grid-template-rows: auto; }
     .rail-nav { display: none; }
-    .col-heads, .col-heads.is-flush { margin: 0 0 6px; }
-    .player-thumbs { grid-template-columns: repeat(3, 1fr); }
+    .col-heads { margin: 0 0 6px; }
+    .player-thumbs,
+    .player-thumbs.is-5col {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 31%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+    .player-thumbs::-webkit-scrollbar { display: none; }
+    .thumb { scroll-snap-align: start; }
 }
-
-/* Column heads directly above a full-width video (no carousel nav buttons). */
-.col-heads.is-flush { margin: 0 0 8px; }
