@@ -230,6 +230,24 @@
         prevPeek.addEventListener("click", () => pick(at(-1)));
         nextPeek.addEventListener("click", () => pick(at(1)));
 
+        // GitHub Pages' CDN only caches files for 10 minutes, so a clip nobody has requested
+        // recently takes 0.5-2 s to start. Requesting its first MB ahead of time makes the CDN
+        // cache the whole file and gives the browser a head start.
+        const warm = (t) => {
+            if (navigator.connection?.saveData || t.dataset.fetched) return;
+            if (Date.now() - (+t.dataset.warmed || 0) < 5 * 60 * 1000) return;
+            t.dataset.warmed = Date.now();
+            fetch(t.dataset.video, { headers: { Range: "bytes=0-1048575" } }).catch(() => {});
+        };
+        // Taps fire pointerenter/focus right before click, which would only duplicate the download.
+        const onHover = (el, target) => {
+            el.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") warm(target()); });
+            el.addEventListener("focus", () => { if (el.matches(":focus-visible")) warm(target()); });
+        };
+        thumbs.forEach((t) => onHover(t, () => t));
+        onHover(prevPeek, () => at(-1));
+        onHover(nextPeek, () => at(1));
+
         // Arrow keys switch clips, except on the video itself where they seek.
         root.addEventListener("keydown", (e) => {
             if (e.target === video || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return;
@@ -239,13 +257,16 @@
             (thumbs.includes(e.target) ? t : e.target).focus({ preventScroll: true });
         });
 
-        // Warm the HTTP cache with the upcoming clip so auto-advance doesn't stall on a fresh download.
         video.addEventListener("playing", () => {
-            if (!auto) return;
+            // Auto-advance clips are short, so fetch the upcoming one in full to avoid a stall.
             const t = at(1);
-            if (t.dataset.fetched) return;
-            t.dataset.fetched = "1";
-            fetch(t.dataset.video).catch(() => {});
+            if (auto && !t.dataset.fetched) {
+                t.dataset.fetched = "1";
+                fetch(t.dataset.video).catch(() => {});
+            }
+            // The neighbours are what the peek panels offer next.
+            warm(at(-1));
+            warm(at(1));
         });
 
         video.addEventListener("ended", () => {
