@@ -170,13 +170,37 @@
     // ---------------------------------------------------------------------
     // The video itself is lazy-loaded / autoplayed by the playback logic above.
     // With data-autoadvance="N", each clip plays N times before moving on to the
-    // next thumbnail; once the user picks a thumbnail, that clip just loops.
+    // next thumbnail; once the user picks a clip, that clip just loops.
+    // Prev/next "peek" panels beside the video show part of the neighbouring clips.
     document.querySelectorAll("[data-player]").forEach((root) => {
         const video = root.querySelector("[data-player-video]");
         const thumbs = [...root.querySelectorAll(".thumb")];
         const loops = +root.dataset.autoadvance || 0;
         let auto = loops > 0;
         let plays = 0;
+
+        const label = (t) => t.querySelector("span").firstChild.textContent.trim();
+        const at = (offset) => {
+            const i = thumbs.findIndex((x) => x.classList.contains("is-active"));
+            return thumbs[(i + offset + thumbs.length) % thumbs.length];
+        };
+
+        const makePeek = (dir) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = `peek peek-${dir}`;
+            b.innerHTML = '<img alt="" decoding="async"><span class="peek-content">'
+                + '<span class="peek-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>'
+                + `<span class="peek-copy"><span class="peek-kicker">${dir === "prev" ? "Previous" : "Next"}</span><span class="peek-name"></span></span></span>`;
+            return b;
+        };
+        const media = root.querySelector(".player-media");
+        const stage = document.createElement("div");
+        stage.className = "player-stage";
+        const prevPeek = makePeek("prev");
+        const nextPeek = makePeek("next");
+        media.before(stage);
+        stage.append(prevPeek, media, nextPeek);
 
         const select = (t, play) => {
             thumbs.forEach((x) => x.classList.toggle("is-active", x === t));
@@ -186,23 +210,39 @@
             plays = 0;
             video.poster = t.dataset.poster;
             video.dataset.src = t.dataset.video;
+            [[prevPeek, -1, "Previous"], [nextPeek, 1, "Next"]].forEach(([b, offset, word]) => {
+                const n = at(offset);
+                b.querySelector("img").src = n.dataset.poster;
+                b.querySelector(".peek-name").textContent = label(n);
+                b.setAttribute("aria-label", `${word}: ${label(n)}`);
+            });
             if (play) {
                 video.src = t.dataset.video;
                 video.play().catch(() => {});
             }
         };
 
-        thumbs.forEach((t) => t.addEventListener("click", () => {
+        const pick = (t) => {
             if (auto) { auto = false; video.loop = true; }
             select(t, true);
-        }));
+        };
+        thumbs.forEach((t) => t.addEventListener("click", () => pick(t)));
+        prevPeek.addEventListener("click", () => pick(at(-1)));
+        nextPeek.addEventListener("click", () => pick(at(1)));
 
-        const next = () => thumbs[(thumbs.findIndex((x) => x.classList.contains("is-active")) + 1) % thumbs.length];
+        // Arrow keys switch clips, except on the video itself where they seek.
+        root.addEventListener("keydown", (e) => {
+            if (e.target === video || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return;
+            e.preventDefault();
+            const t = at(e.key === "ArrowLeft" ? -1 : 1);
+            pick(t);
+            (thumbs.includes(e.target) ? t : e.target).focus({ preventScroll: true });
+        });
 
         // Warm the HTTP cache with the upcoming clip so auto-advance doesn't stall on a fresh download.
         video.addEventListener("playing", () => {
             if (!auto) return;
-            const t = next();
+            const t = at(1);
             if (t.dataset.fetched) return;
             t.dataset.fetched = "1";
             fetch(t.dataset.video).catch(() => {});
@@ -211,7 +251,7 @@
         video.addEventListener("ended", () => {
             if (!auto) return;
             if (++plays < loops) { video.play().catch(() => {}); return; }
-            select(next(), true);
+            select(at(1), true);
         });
 
         select(thumbs[0], false);
