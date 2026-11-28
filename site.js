@@ -68,64 +68,6 @@
     autoVideos.forEach((v) => io.observe(v));
     window.addEventListener("scroll", schedulePick, { passive: true });
 
-    // Hovering a carousel clip (real-time demos) plays that clip instead.
-    document.querySelectorAll(".clip-rail video").forEach((v) => {
-        v.closest(".clip-media").addEventListener("mouseenter", () => {
-            load(v);
-            v.play().catch(() => {});
-        });
-    });
-
-    // ---------------------------------------------------------------------
-    // Carousel: prev/next buttons, page dots, counter.
-    // ---------------------------------------------------------------------
-    document.querySelectorAll("[data-carousel]").forEach((root) => {
-        const rail = root.querySelector("[data-rail]");
-        const prev = root.querySelector("[data-rail-prev]");
-        const next = root.querySelector("[data-rail-next]");
-        const dots = root.querySelector("[data-rail-dots]");
-        const count = root.querySelector("[data-rail-count]");
-
-        // One page = rail width + the column gap between pages.
-        const gap = () => parseFloat(getComputedStyle(rail).columnGap) || 0;
-        const stride = () => rail.clientWidth + gap();
-        const pages = () => Math.max(1, Math.round((rail.scrollWidth + gap()) / stride()));
-        const current = () => Math.round(rail.scrollLeft / stride());
-        const goTo = (i) => rail.scrollTo({ left: i * stride(), behavior: "smooth" });
-
-        const buildDots = () => {
-            dots.innerHTML = "";
-            for (let i = 0; i < pages(); i++) {
-                const b = document.createElement("button");
-                b.type = "button";
-                b.setAttribute("role", "tab");
-                b.setAttribute("aria-label", `Page ${i + 1}`);
-                b.addEventListener("click", () => goTo(i));
-                dots.appendChild(b);
-            }
-            update();
-        };
-
-        const update = () => {
-            const n = pages();
-            const c = Math.min(current(), n - 1);
-            dots.querySelectorAll("button").forEach((b, i) => b.setAttribute("aria-selected", String(i === c)));
-            if (count) count.textContent = `${c + 1} / ${n}`;
-            if (prev) prev.disabled = c <= 0;
-            if (next) next.disabled = c >= n - 1;
-        };
-
-        prev?.addEventListener("click", () => goTo(current() - 1));
-        next?.addEventListener("click", () => goTo(current() + 1));
-        rail.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
-        rail.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowRight") { e.preventDefault(); goTo(current() + 1); }
-            if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current() - 1); }
-        });
-        window.addEventListener("resize", buildDots);
-        buildDots();
-    });
-
     // ---------------------------------------------------------------------
     // Playback-speed buttons overlaid on each video.
     // ---------------------------------------------------------------------
@@ -165,10 +107,10 @@
 
     // Real-world clips are only a few seconds long, so slow motion is offered instead of 4x.
     document.querySelectorAll("[data-autoadvance] .player-media").forEach((c) => addSpeed(c, [0.5, 1, 2], "top"));
-    document.querySelectorAll("[data-player]:not([data-autoadvance]) .player-media, .clip-media.is-live").forEach((c) => addSpeed(c, [1, 2, 4], "top"));
+    document.querySelectorAll("[data-player]:not([data-autoadvance]) .player-media").forEach((c) => addSpeed(c, [1, 2, 4], "top"));
 
     // ---------------------------------------------------------------------
-    // Player with thumbnail selector (real-world clips and long videos).
+    // Player with thumbnail selector (long videos, real-world clips, real-time demos).
     // ---------------------------------------------------------------------
     // The video itself is lazy-loaded / autoplayed by the playback logic above.
     // With data-autoadvance="N", each clip plays N times before moving on to the

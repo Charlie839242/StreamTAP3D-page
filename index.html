@@ -168,32 +168,21 @@
                 StreamTAP3D running live on a single <strong>laptop GPU</strong> with a webcam stream.
                 Left: the scene filmed by a handheld phone. Right: screen recording of the live system.
             </p>
-            <div class="col-heads" aria-hidden="true">
-                <span>Input Video</span>
-                <span>Streaming 3D Tracks</span>
-            </div>
-            <div class="clip-carousel" data-carousel>
-                <div class="rail-shell">
-                    <button type="button" class="rail-nav rail-nav-prev" data-rail-prev aria-label="Previous demo">&lsaquo;</button>
-                    <div class="clip-rail is-single" data-rail tabindex="0" role="group" aria-label="Real-time demos (scroll horizontally)">
-                        <figure class="clip">
-                            <div class="clip-media is-live">
-                                <video data-src="assets/videos/moving_object.mp4" poster="assets/posters/moving_object.jpg" muted loop playsinline preload="none" data-autoplay controls></video>
-                            </div>
-                            <figcaption>Tracking a moving object</figcaption>
-                        </figure>
-                        <figure class="clip">
-                            <div class="clip-media is-live">
-                                <video data-src="assets/videos/waving_hand.mp4" poster="assets/posters/waving_hand.jpg" muted loop playsinline preload="none" data-autoplay controls></video>
-                            </div>
-                            <figcaption>Tracking a waving hand</figcaption>
-                        </figure>
-                    </div>
-                    <button type="button" class="rail-nav rail-nav-next" data-rail-next aria-label="Next demo">&rsaquo;</button>
+            <div class="player" data-player>
+                <div class="col-heads" aria-hidden="true">
+                    <span>Input Video</span>
+                    <span>Streaming 3D Tracks</span>
                 </div>
-                <div class="rail-footer">
-                    <div class="rail-dots" data-rail-dots role="tablist" aria-label="Demo pages"></div>
-                    <p class="rail-count" data-rail-count aria-live="polite"></p>
+                <div class="clip-media player-media is-live">
+                    <video data-player-video data-autoplay muted loop playsinline controls preload="none"></video>
+                </div>
+                <div class="player-thumbs is-2col" role="tablist" aria-label="Real-time demos">
+                    <button type="button" class="thumb" data-video="assets/videos/moving_object.mp4" data-poster="assets/posters/moving_object.jpg">
+                        <img src="assets/thumbs/moving_object.jpg" alt="" loading="lazy"><span>Moving object <em>0:32</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/waving_hand.mp4" data-poster="assets/posters/waving_hand.jpg">
+                        <img src="assets/thumbs/waving_hand.jpg" alt="" loading="lazy"><span>Waving hand <em>0:34</em></span>
+                    </button>
                 </div>
             </div>
         </div>
