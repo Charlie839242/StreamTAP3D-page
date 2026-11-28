@@ -241,14 +241,19 @@ strong { font-weight: 600; }
 
 /* ---------------------------------------------------------------- Player */
 
-/* Capped so a 3:2 video plus its thumbnails fit on a laptop screen. */
-.player { max-width: 900px; margin: 0 auto; }
+/* Video in the middle, prev/next peek panels on both sides (added by site.js). */
+.player { --peek: clamp(96px, 10vw, 140px); --peek-gap: 14px; }
+.player-stage {
+    display: grid;
+    grid-template-columns: var(--peek) minmax(0, 1fr) var(--peek);
+    gap: var(--peek-gap);
+}
 .player-media { aspect-ratio: 960 / 654; }
 .player-thumbs {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
-    margin-top: 14px;
+    margin: 14px calc(var(--peek) + var(--peek-gap)) 0;
 }
 .player-thumbs.is-5col { grid-template-columns: repeat(5, 1fr); }
 .thumb {
@@ -268,6 +273,66 @@ strong { font-weight: 600; }
 .thumb img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 4px 4px 0 0; }
 .thumb span { display: block; padding: 4px 6px; font-size: 0.8rem; line-height: 1.3; }
 .thumb em { font-style: normal; color: var(--text-muted); margin-left: 4px; }
+
+.peek {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #e9ecf0;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+}
+.peek img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 0.3s, transform 0.45s ease;
+}
+/* Each panel shows the edge of the neighbouring clip that faces the main video. */
+.peek-prev img {
+    object-position: right center;
+    -webkit-mask-image: linear-gradient(90deg, #000 15%, #000 45%, transparent);
+    mask-image: linear-gradient(90deg, #000 15%, #000 45%, transparent);
+}
+.peek-next img {
+    object-position: left center;
+    -webkit-mask-image: linear-gradient(-90deg, #000 15%, #000 45%, transparent);
+    mask-image: linear-gradient(-90deg, #000 15%, #000 45%, transparent);
+}
+.peek::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.peek-prev::before { background: linear-gradient(90deg, rgba(20, 22, 29, 0.5), rgba(20, 22, 29, 0.18) 65%, rgba(20, 22, 29, 0.08)); }
+.peek-next::before { background: linear-gradient(-90deg, rgba(20, 22, 29, 0.5), rgba(20, 22, 29, 0.18) 65%, rgba(20, 22, 29, 0.08)); }
+.peek-content {
+    position: absolute; z-index: 2;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.peek-arrow {
+    width: 44px; height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--text);
+    box-shadow: 0 6px 24px rgba(20, 22, 29, 0.18);
+    transition: background 0.15s, color 0.15s;
+}
+.peek-arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.peek-prev .peek-arrow svg { transform: rotate(180deg); }
+.peek-copy { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; text-shadow: 0 1px 8px rgba(20, 22, 29, 0.9); }
+.peek-kicker { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.peek-name { max-width: calc(var(--peek) - 16px); overflow: hidden; font-size: 0.8rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.peek:hover img { opacity: 1; transform: scale(1.05); }
+.peek:hover .peek-arrow { background: var(--accent); color: #fff; }
+.peek:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* --------------------------------------------------------------- Figures */
 
@@ -311,11 +376,18 @@ strong { font-weight: 600; }
     .clip-rail { grid-template-rows: auto; }
     .rail-nav { display: none; }
     .col-heads { margin: 0 0 6px; }
+    /* Peek panels shrink to arrow-only strips; the stage bleeds into the page padding. */
+    .player { --peek: 32px; --peek-gap: 6px; }
+    .player-stage { margin: 0 -16px; }
+    .peek-copy { display: none; }
+    .peek-arrow { width: 28px; height: 28px; }
+    .peek-arrow svg { width: 14px; height: 14px; }
     .player-thumbs,
     .player-thumbs.is-5col {
         grid-template-columns: none;
         grid-auto-flow: column;
         grid-auto-columns: 31%;
+        margin-inline: 0;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
