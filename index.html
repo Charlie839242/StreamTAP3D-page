@@ -76,6 +76,43 @@
             </div>
         </div>
 
+        <!-- Long videos: one player with thumbnail selector -->
+        <div class="container container-wide">
+            <h2>Long Videos</h2>
+            <p class="section-intro">
+                Because memory is compressed into constant-size states, the per-frame cost does not grow with video length.
+                StreamTAP3D keeps tracking over minutes-long sequences.
+            </p>
+            <div class="player" data-player>
+                <div class="clip-media player-media">
+                    <video data-player-video data-autoplay muted loop playsinline controls preload="none"></video>
+                </div>
+                <div class="player-thumbs" role="tablist" aria-label="Long video sequences">
+                    <button type="button" class="thumb" data-video="assets/videos/mirror.mp4" data-poster="assets/posters/mirror.jpg">
+                        <img src="assets/thumbs/mirror.jpg" alt="" loading="lazy"><span>Mirror dance <em>3:54</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/kick.mp4" data-poster="assets/posters/kick.jpg">
+                        <img src="assets/thumbs/kick.jpg" alt="" loading="lazy"><span>Arknights character <em>0:15</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/genshin.mp4" data-poster="assets/posters/genshin.jpg">
+                        <img src="assets/thumbs/genshin.jpg" alt="" loading="lazy"><span>Genshin character <em>0:14</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/skating.mp4" data-poster="assets/posters/skating.jpg">
+                        <img src="assets/thumbs/skating.jpg" alt="" loading="lazy"><span>Figure skating <em>0:28</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/wata.mp4" data-poster="assets/posters/wata.jpg">
+                        <img src="assets/thumbs/wata.jpg" alt="" loading="lazy"><span>Duo dance <em>0:51</em></span>
+                    </button>
+                    <button type="button" class="thumb" data-video="assets/videos/robot_arm.mp4" data-poster="assets/posters/robot_arm.jpg">
+                        <img src="assets/thumbs/robot_arm.jpg" alt="" loading="lazy"><span>Robot arms <em>0:19</em></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================== Real-world videos ========================= -->
+    <section class="section section-alt">
         <!-- Short clips: one player with thumbnail selector; cycles through clips until the user picks one -->
         <div class="container container-wide">
             <h2>Real-World Videos</h2>
@@ -120,43 +157,6 @@
                 Trajectories are shown in world coordinates on top of the streaming reconstruction;
                 colored tracklines mark dynamic foreground points.
             </p>
-        </div>
-    </header>
-
-    <!-- ============================= Long videos ============================ -->
-    <section class="section section-alt">
-        <!-- Long videos: one player with thumbnail selector -->
-        <div class="container container-wide">
-            <h2>Long Videos</h2>
-            <p class="section-intro">
-                Because memory is compressed into constant-size states, the per-frame cost does not grow with video length.
-                StreamTAP3D keeps tracking over minutes-long sequences.
-            </p>
-            <div class="player" data-player>
-                <div class="clip-media player-media">
-                    <video data-player-video data-autoplay muted loop playsinline controls preload="none"></video>
-                </div>
-                <div class="player-thumbs" role="tablist" aria-label="Long video sequences">
-                    <button type="button" class="thumb" data-video="assets/videos/mirror.mp4" data-poster="assets/posters/mirror.jpg">
-                        <img src="assets/thumbs/mirror.jpg" alt="" loading="lazy"><span>Mirror dance <em>3:54</em></span>
-                    </button>
-                    <button type="button" class="thumb" data-video="assets/videos/skating.mp4" data-poster="assets/posters/skating.jpg">
-                        <img src="assets/thumbs/skating.jpg" alt="" loading="lazy"><span>Figure skating <em>0:28</em></span>
-                    </button>
-                    <button type="button" class="thumb" data-video="assets/videos/wata.mp4" data-poster="assets/posters/wata.jpg">
-                        <img src="assets/thumbs/wata.jpg" alt="" loading="lazy"><span>Duo dance <em>0:51</em></span>
-                    </button>
-                    <button type="button" class="thumb" data-video="assets/videos/robot_arm.mp4" data-poster="assets/posters/robot_arm.jpg">
-                        <img src="assets/thumbs/robot_arm.jpg" alt="" loading="lazy"><span>Robot arms <em>0:19</em></span>
-                    </button>
-                    <button type="button" class="thumb" data-video="assets/videos/kick.mp4" data-poster="assets/posters/kick.jpg">
-                        <img src="assets/thumbs/kick.jpg" alt="" loading="lazy"><span>Arknights character <em>0:15</em></span>
-                    </button>
-                    <button type="button" class="thumb" data-video="assets/videos/genshin.mp4" data-poster="assets/posters/genshin.jpg">
-                        <img src="assets/thumbs/genshin.jpg" alt="" loading="lazy"><span>Genshin character <em>0:14</em></span>
-                    </button>
-                </div>
-            </div>
         </div>
     </section>
 
