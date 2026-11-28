@@ -125,8 +125,6 @@ strong { font-weight: 600; }
 
 /* ----------------------------------------------------------------- Clips */
 
-.clip { position: relative; }
-
 .clip-media {
     position: relative;
     overflow: hidden;
@@ -137,17 +135,10 @@ strong { font-weight: 600; }
 .clip-media video { display: block; width: 100%; height: 100%; object-fit: contain; background: #fff; }
 .clip-media.is-live { aspect-ratio: 1280 / 496; }
 
-.clip figcaption {
-    margin-top: 6px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    text-align: center;
-}
-
 .col-heads {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin: 0 44px 8px;
+    margin: 0 0 8px;
     text-align: center;
     font-size: 0.78rem;
     font-weight: 600;
@@ -155,55 +146,6 @@ strong { font-weight: 600; }
     text-transform: uppercase;
     color: var(--text-muted);
 }
-
-
-/* -------------------------------------------------------------- Carousel */
-
-.rail-shell { position: relative; display: flex; align-items: center; gap: 8px; }
-
-.clip-rail {
-    flex: 1;
-    display: grid;
-    grid-template-rows: repeat(2, auto);
-    grid-auto-flow: column;
-    grid-auto-columns: 100%;
-    gap: 14px 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    outline: none;
-}
-.clip-rail::-webkit-scrollbar { display: none; }
-.clip-rail > .clip { scroll-snap-align: start; }
-.clip-rail.is-single { grid-template-rows: auto; }
-
-.rail-nav {
-    flex: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--border-strong);
-    background: #fff;
-    color: var(--text-soft);
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-}
-.rail-nav:hover:not(:disabled) { background: var(--text); color: #fff; }
-.rail-nav:disabled { opacity: 0.35; cursor: default; }
-
-.rail-footer { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 12px; }
-.rail-dots { display: flex; gap: 8px; }
-.rail-dots button {
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    border: none;
-    background: var(--border-strong);
-    cursor: pointer;
-}
-.rail-dots button[aria-selected="true"] { background: var(--accent); }
-.rail-count { font-size: 0.82rem; color: var(--text-muted); }
 
 /* ----------------------------------------------------------------- Speed */
 
@@ -256,6 +198,9 @@ strong { font-weight: 600; }
     margin-top: 14px;
 }
 .player-thumbs.is-5col { grid-template-columns: repeat(5, 1fr); }
+.player-thumbs.is-2col { grid-template-columns: repeat(2, minmax(0, 260px)); justify-content: center; }
+/* Column labels line up with the video only, not the peek panels. */
+.player > .col-heads { margin-inline: calc(var(--peek) + var(--peek-gap)); }
 .thumb {
     border: 2px solid transparent;
     border-radius: var(--radius);
@@ -373,12 +318,10 @@ strong { font-weight: 600; }
 @media (max-width: 760px) {
     body { font-size: 16px; }
     h1 { font-size: 1.75rem; }
-    .clip-rail { grid-template-rows: auto; }
-    .rail-nav { display: none; }
-    .col-heads { margin: 0 0 6px; }
     /* Peek panels shrink to arrow-only strips; the stage bleeds into the page padding. */
     .player { --peek: 32px; --peek-gap: 6px; }
     .player-stage { margin: 0 -16px; }
+    .player > .col-heads { margin: 0 calc(var(--peek) + var(--peek-gap) - 16px) 6px; }
     .peek-copy { display: none; }
     .peek-arrow { width: 28px; height: 28px; }
     .peek-arrow svg { width: 14px; height: 14px; }
