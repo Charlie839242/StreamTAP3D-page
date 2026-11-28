@@ -197,11 +197,21 @@
             select(t, true);
         }));
 
+        const next = () => thumbs[(thumbs.findIndex((x) => x.classList.contains("is-active")) + 1) % thumbs.length];
+
+        // Warm the HTTP cache with the upcoming clip so auto-advance doesn't stall on a fresh download.
+        video.addEventListener("playing", () => {
+            if (!auto) return;
+            const t = next();
+            if (t.dataset.fetched) return;
+            t.dataset.fetched = "1";
+            fetch(t.dataset.video).catch(() => {});
+        });
+
         video.addEventListener("ended", () => {
             if (!auto) return;
             if (++plays < loops) { video.play().catch(() => {}); return; }
-            const i = thumbs.findIndex((x) => x.classList.contains("is-active"));
-            select(thumbs[(i + 1) % thumbs.length], true);
+            select(next(), true);
         });
 
         select(thumbs[0], false);
